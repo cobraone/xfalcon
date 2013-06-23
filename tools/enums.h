@@ -1,0 +1,69 @@
+#ifndef ENUMS_H
+#define ENUMS_H
+
+typedef enum
+{
+    MSG__START,
+    MSG__STOP,
+    MSG__PAUSE,
+    MSG__INITIALIZE,
+    MSG__OK,
+    MSG__FAIL,
+    MSG__CREATE,
+    MSG__DESTROY,
+    MSG__NEWCONSOLE,
+    MSG__CLICK,
+    MSG__TAB4,
+    MSG__TAB8,
+    MSG__LOAD,
+    MSG__CALL,
+    MSG__SUCCESS,
+    MSG__UNLOAD,
+    MSG__KILL
+} DMSG;
+
+typedef enum
+{
+    E__FILE_NOT_FOUND,
+    E__LOCKED,
+    W__KILLALL,
+    W__ALREADY_RUNNING,
+    W__ALREADY_STOPPED,
+    W__NOTHING_TO_KILL,
+    F__MULTIPLE_DEPENDENCIES_NOT_ALLOWED,
+    W__ALREADY_DEFINED_AS_CHILD_OR_DEPENDENCY,
+    W__NULL_SERVICE_REFERENCE,
+    W__NOT_YET_IMPLEMENTED,
+    W__HAS_DEPENDS,
+    W__HAS_CHILDS,
+    W__ALREADY_INIT,
+    W__IGNORED,
+    W__EXISTING_CONFIG_OPTION,
+    W__ALREADY_LOADED,
+    E__NOT_RUNNING_SERVICE,
+    E__CANNOT_NOT_BE_A_DEPENDENCY,
+    E__NOT_INITIALIZED_SERVICE
+} EX_CODE;
+
+typedef enum
+{
+    T__WARNING,
+    T__ERROR,
+    T__CRITICAL,
+    T__FATAL
+} EX_TYPE;
+
+typedef enum
+{
+    M__PERSISTENT,
+    M__VOLATILE
+} ALLOC_TYPE;
+
+typedef enum
+{
+    L__ALL,
+    L__SERVICES,
+    L__OBJECTS
+} L_MODE;
+
+#endif // ENUMS_H

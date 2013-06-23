@@ -1,0 +1,8 @@
+#ifndef UNITY_VERSION_H
+#define UNITY_VERSION_H
+
+#define UNITY_MAJOR_VERSION     0
+#define UNITY_MINOR_VERSION     4
+#define UNITY_PATCHLEVEL        10
+
+#endif // UNITY_VERSION_H

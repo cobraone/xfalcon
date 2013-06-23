@@ -1,0 +1,97 @@
+  ----------------------------------------------------------------------------------------------------------------
+
+  unity_engine : CHANGELOG
+  ~~~~~~~~~~~~~~~~~~~~~~~~
+
+  0.1.0  :   - basic features (i.e. console and service support) are reliable
+  0.1.1  :   - add "write(int)" to __console
+  0.2.0  :   - add generic timer feature
+  0.2.1  :   - fix BUG130425-1
+  0.2.2  :   - fix some minor issues with killall behavior (better service management)
+            - add small checks to __uservice deps/childs start/stop procedures to prevent the occurence of
+              unnecessary exceptions (such as "X already running/stopped")
+  0.2.3  :   - add IMPROV130428-1
+  0.3.0  :   - add a pseudo-thread implementation (threadloop.h) which is actually a simple timer encapsultion
+            - add some checks to timer_QTimer and a better encapsulation
+  0.3.1  :   - add IMPROV130428-2
+            - make some changes on "threadLoop" which become "TimerLoop". It will be a new "ThreadLoop" as soon
+              as possible
+  0.3.2  :   - new file "api.h". Now, it's recommended to use this file instead of and API-dependent header
+            - add "getFirst" et "getNext" to "Collection" (collection.h)
+            - add "setSpeed_int" and "setSpeed_lps" to "TimerLoop" (see IMPROV130429-1)
+            - add a new abstract interface named "Loop" which contains "setSpeed_???" definitions
+  0.3.3  :   - add a new macro named "CHECK__USERVICE__" and a new "E__NOT_RUNNING_SERVICE" error
+  0.3.4  :   - add IMPROV130503-1
+  0.4.0  :   - add IMPROV130505-1
+            - fix some issues (segfault) with "killall"
+  0.4.1  :   - add IMPROV130506-1
+  0.4.2  :   - add "unsigned int" display support to console
+  0.4.3  :   - add "SubStrings" class to build a list of substrings from one string and one separator
+  0.4.4  :   - add "Container_IndexedList" and improve "Collection" interface
+  0.4.5  :   - fix a minor bug with "SubStrings" (when separators are one behind the other)
+  0.4.6  :   - add some improvements to "SubStrings" ("subStr" method)
+            - add "Convert" class with static methods which allow to convert a value from string to any format
+  0.4.7  :   - add some new features to "Container_IndexedList"
+  0.4.8  :   - add a new "tty"
+  0.4.9  :   - add float display to console
+  0.4.10 :	 - add thread_SFML class
+
+  ----------------------------------------------------------------------------------------------------------------
+
+  unity_engine : TODO
+  ~~~~~~~~~~~~~~~~~~~
+
+  BUG FIXES
+
+  REF BUG130425-1 : OK
+  - fix services/data partitioning (__unity). Unity is not able to know who is a service, who is a data, because
+    when a service is created, it first calls __uinstance contructor, which set __isService to false and reference
+    the instance into unity. At this point, unity checks the instance type (__isService == false... ???) and then,
+    reference it as a data, and only when all __uservice parents constructor are called, the __uservice constructor
+    sets "__isService" to "true" ! Too late....
+
+  REF BUG130526-1 : PENDING
+  - clarify and possibly fix the following issue : a common way to display multiple things trough the console is
+    to do a call chain with operator "<<". Whenever it works well, except when using with SubStrings method
+    "getNext"... it displays all substrings but in the reverse order. However, when the "<<" operator is called
+    outside a call chain, it works fine. So it's a low priority issue, but which may be fixed one time or another.
+    Possible confusion between console "<<" operator and std::string "<<" operator ?
+
+  IMPROVEMENTS
+
+  REF IMPROV130425-1 : PENDING
+  - improve lock/unlock control because currently, unity checks whether it is being accessed or not, but in case
+    of concurrent access, unity simply not perfoms expected operation instead of waiting the end of the lock to do.
+
+  REF IMPROV130428-1 : OK
+  - improve service dependencies support, by checking dependencies return codes on startup. So if a dependency don't
+    start, his children won't start either.
+
+  REF IMPROV130428-2 : OK
+  - threading support could be better, but also so much more difficult to manage, and perhaps unnecessary. So, this
+    request is open from now and maybe forever, but open ! Currently, threads are supported by timers. Starting a
+    thread is exactly the same thing as starting a "repeat" with timers. Really not so bad...
+
+  REF IMPROV130429-1 : OK / PENDING
+  - add speed control to TimerLoop : setSpeed_int (OK) / setSpeed_lps (PENDING)
+
+  REF IMPROV130503-1 : OK
+  - add a possibility to enable/disable basic services controls (init, start, stop and pause)
+
+  REF IMPROV130505-1 : OK
+  - add a possibility to dynamically create memory areas to better manage alloc/free requests. __uinstance may be
+    able to identify where it should be stored, for example through a new constructor which specify concerned area.
+    This feature must be limited to objects, which are referenced either in the default mem (present case), or in
+    the specified memory area. This should be considered as a major change, and will dramatically improve large
+    alloc/free operations
+
+  REF IMPROV130506-1 : OK
+  - improve the CHECK__USERVICE__ macro because of issues when controls are not defined to ALL. CHECK__USERVICE__
+    may be able to check whether a service is started or not, but also whether a service is initialized when controls
+    are only set on INIT
+
+  REF IMPROV130609-1 : PENDING
+  - add a possibility to pause a non singleshot timer (by modifying "wait"), and improve "tty_" with a new generic
+    tty at the top of present tty. Also improve console by adding all unsupported formats (float, etc.)
+
+  ----------------------------------------------------------------------------------------------------------------
